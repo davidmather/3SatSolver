@@ -115,4 +115,78 @@ public class SatMap extends HashMap<String, boolean[]> {
     {
         return instance;
     }
+
+    public String solve(Clause[] clauses){
+
+        satLoop:
+        for (Clause value : clauses) {
+            boolean[] booleanArray = new boolean[8];
+            Arrays.fill(booleanArray, Boolean.TRUE);
+            outerloop:
+            for (Clause clause : clauses) {
+                if (value.literals.length >= clause.literals.length) {
+                    int[] temp = new int[clause.literals.length];
+                    System.out.println("");
+                    for (int p = 0; p < clause.literals.length; p++) {
+                        if(value.literals[p]>clause.literals[p] ){
+                            temp[p] = value.literals[p] - clause.literals[p] + (p * 2);
+                        } else {
+                            temp[p] = clause.literals[p] - value.literals[p] + (p * 2);
+                        }
+
+                        if(value.literals[p] % 2 == 0) {
+                            if(clause.literals[p] % 2 == 0) {
+                                if (temp[p] >= 6  || temp[p] <= p * 2 - 1) {
+                                    continue outerloop;
+                                }
+                            } else {
+                                if (temp[p] >= 6  || temp[p] <= p * 2 - 2) {
+                                    continue outerloop;
+                                }
+                            }
+                        } else {
+                            if(clause.literals[p] % 2 == 0) {
+                                if (temp[p] >= 6  || temp[p] <= p * 2 - 1) {
+                                    continue outerloop;
+                                }
+                            } else {
+                                if (temp[p] >= 6  || temp[p] <= p * 2 - 2) {
+                                    continue outerloop;
+                                }
+                            }
+                        }
+                    }
+
+                    StringBuilder test = new StringBuilder();
+                    for(int i=0; i < temp.length; i++){
+                        test.append(SatMap.array[temp[i]]);
+                    }
+                    booleanArray = join(booleanArray, this.get(test.toString()));
+
+                    System.out.println(Arrays.toString(temp));
+                    System.out.println(Arrays.toString(clause.literals));
+                    System.out.println(Arrays.toString(value.literals));
+                    System.out.println("bbb");
+                    System.out.println(Arrays.toString(this.get(test.toString())));
+                    System.out.println(Arrays.toString(booleanArray));
+                    System.out.println("");
+                }
+            }
+
+            for (boolean b : booleanArray) {
+                if (b) { continue satLoop; }
+            }
+            return "Unsatisfiable";
+        }
+        return "Satisfiable";
+    }
+
+    public static boolean[] join(boolean[] a, boolean[]b) {
+        for(int i = 0; i < b.length; i++){
+            if(!b[i]){
+                a[i] = false;
+            }
+        }
+        return a;
+    }
 }

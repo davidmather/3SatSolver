@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Main {
 
+    static SatMap satMap = SatMap.getInstance();
     public static void main(String []args){
         Clause[] clauses = new Clause[4];
         clauses[0] = new Clause(new int[]{1, 4, 5});
@@ -21,7 +22,7 @@ public class Main {
 //        clauses[7] = new Clause(new int[]{16, 17, 18});
 //        clauses[8] = new Clause(new int[]{19, 21, 22});
 //        clauses[9] = new Clause(new int[]{24, 1, 2});
-        System.out.println(SatSolver.solve(clauses));
+        System.out.println(satMap.solve(clauses));
     }
 
 }
