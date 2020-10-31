@@ -5,6 +5,7 @@ import java.util.*;
 public class SatMap extends HashMap<String, boolean[]> {
 
     public static String[] array = {"a","b","c","d","e","f"};
+    public static char[] charArray = {'a','b','c','d','e','f'};
     private static SatMap instance = null;
     static {
         instance = new SatMap();
@@ -17,8 +18,6 @@ public class SatMap extends HashMap<String, boolean[]> {
     }
 
     private void generateMap(){
-
-        char[] charArray = {'a','b','c','d','e','f'};
         Set<String> set = new HashSet<>();
         for(int a = 0; a < array.length; a++){
             for(int b = 0; b < array.length; b++){
@@ -64,7 +63,6 @@ public class SatMap extends HashMap<String, boolean[]> {
                     boolArray[k+1] = chars[j] == '0' ? false : true;
                     k = k + 2;
                 }
-                //System.out.println(Arrays.toString(boolArray));
                 compArray[a] = boolArray;
                 a++;
             }
@@ -92,19 +90,15 @@ public class SatMap extends HashMap<String, boolean[]> {
                     stringBuilder.append(ints[k]);
                     truthAssignment = truthAssignment && compArray[m][ints[k]];
                 }
-                //System.out.println(stringBuilder.toString() + truthAssignment);
                 if(!truthAssignment){
-                    //System.out.println(m);
                     assignments[i][m] = true;
                 }
             }
 
         }
-        //System.out.println(Arrays.deepToString(assignments));
         for (int i = 0; i < assignments.length; i++){
             this.put(sortedList.get(i),assignments[i]);
         }
-        System.out.println(Arrays.toString(this.get("a")));
     }
 
     public static String removeDuplicates(String word) {
